@@ -40,15 +40,17 @@
   </section>
 
   <script>
+    let allQuestions = [];
     let questions = [];
     let currentQuestionIndex = 0;
     let isAnswerVisible = false;
 
-    async function loadQuestions() {
-      if (questions.length > 0) return;
-
+    async function loadQuestions(category) {
+      if (allQuestions.length === 0) {
       const response = await fetch("photo-database.json");
-      questions = await response.json();
+      allQuestions = await response.json();
+    }
+      questions = allQuestions.filter(question => question.category === category);
     }
 
     function renderQuestion() {
@@ -91,7 +93,7 @@
       document.getElementById(pageId).hidden = false;
 
       if (pageId === "p2") {
-        await loadQuestions();
+        await loadQuestions("日本古代建築史");
         currentQuestionIndex = 0;
         isAnswerVisible = false;
         renderQuestion();
