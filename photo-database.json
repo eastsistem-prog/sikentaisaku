@@ -4,7 +4,7 @@
     "questionTitle": "これは何？",
     "category": "日本古代建築史",
     "image": "images/伊勢神宮内宮正殿.jpg",
-    "materialLink": "日本古代建築史",
+    "materialLink": "日本古代建築",
     "questionType": "photo-to-answer",
     "answerItems": [
       {
@@ -36,7 +36,7 @@
   {
     "id": "出雲大社本殿",
     "questionTitle": "これは何？",
-    "category": "日本古代建築史",
+    "category": "日本古代建築",
     "image": "images/出雲大社本殿.jpg",
     "materialLink": "日本古代建築史",
     "questionType": "photo-to-answer",
@@ -96,7 +96,7 @@
   {
     "id": "賀茂別雷（かもわけいかづち）神社本殿・権殿",
     "questionTitle": "これは何？",
-    "category": "日本古代建築史",
+    "category": "日本古代建築",
     "image": "images/賀茂別雷（かもわけいかづち）神社本殿・権殿.jpg",
     "materialLink": "日本古代建築史",
     "questionType": "photo-to-answer",
