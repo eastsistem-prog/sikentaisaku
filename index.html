@@ -47,9 +47,9 @@
 
     async function loadQuestions(category) {
       if (allQuestions.length === 0) {
-      const response = await fetch("photo-database.json");
-      allQuestions = await response.json();
-    }
+        const response = await fetch("photo-database.json");
+        allQuestions = await response.json();
+      }
       questions = allQuestions.filter(question => question.category === category);
     }
 
