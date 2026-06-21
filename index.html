@@ -22,9 +22,9 @@
     <div id="answerLabels"></div>
 
     <button>資料</button>
-    <button onclick="toggleAnswerValues()">表示</button>
+    <button onclick="toggleAnswer()">表示</button>
     <button>前へ</button>
-    <button onclick="showNextQuestion()">次へ</button>
+    <button onclick="nextQuestion()">次へ</button>
   </section>
 
   <section id="p4" hidden>
@@ -41,8 +41,6 @@
 
   <script>
     let questions = [];
-    let questionIds = [];
-    let currentQuestion = null;
     let currentQuestionIndex = 0;
     let isAnswerVisible = false;
 
@@ -51,54 +49,33 @@
 
       const response = await fetch("photo-database.json");
       questions = await response.json();
-
-      questionIds = questions.map(question => question.id);
     }
 
-    function showQuestion(i) {
-      const questionId = questionIds[i];
-      const question = questions.find(question => question.id === questionId);
-
-      if (!question) return;
-
-      currentQuestion = question;
-      currentQuestionIndex = i;
-      isAnswerVisible = false;
+    function renderQuestion() {
+      const question = questions[currentQuestionIndex];
 
       document.getElementById("questionTitle").textContent = question.questionTitle;
       document.getElementById("questionImage").src = question.image;
 
-      renderAnswerItems();
-    }
-
-    function renderAnswerItems() {
-      if (!currentQuestion) return;
-
-      const labelsHtml = currentQuestion.answerItems
-        .map(item => {
-          const valueText = isAnswerVisible ? item.value : "";
-          return `<p>${item.label}：${valueText}</p>`;
-        })
+      document.getElementById("answerLabels").innerHTML = question.answerItems
+        .map(item => `<p>${item.label}：${isAnswerVisible ? item.value : ""}</p>`)
         .join("");
-
-      document.getElementById("answerLabels").innerHTML = labelsHtml;
     }
 
-    function toggleAnswerValues() {
+    function toggleAnswer() {
       isAnswerVisible = !isAnswerVisible;
-      renderAnswerItems();
+      renderQuestion();
     }
 
-    function showNextQuestion() {
-      if (questionIds.length === 0) return;
+    function nextQuestion() {
+      currentQuestionIndex++;
 
-      currentQuestionIndex = currentQuestionIndex + 1;
-
-      if (currentQuestionIndex >= questionIds.length) {
+      if (currentQuestionIndex >= questions.length) {
         currentQuestionIndex = 0;
       }
 
-      showQuestion(currentQuestionIndex);
+      isAnswerVisible = false;
+      renderQuestion();
     }
 
     async function showPage(pageId) {
@@ -111,7 +88,8 @@
       if (pageId === "p2") {
         await loadQuestions();
         currentQuestionIndex = 0;
-        showQuestion(currentQuestionIndex);
+        isAnswerVisible = false;
+        renderQuestion();
       }
     }
   </script>
