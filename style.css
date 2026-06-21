@@ -11,7 +11,6 @@ body {
   background: #fff;
 }
 
-body::before,
 body::after {
   content: "";
   position: fixed;
@@ -20,13 +19,6 @@ body::after {
   background: #bfbfbf;
   z-index: 10;
   pointer-events: none;
-}
-
-body::before {
-  top: 0;
-  height: 14vh;
-  min-height: 96px;
-  max-height: 152px;
 }
 
 body::after {
@@ -38,7 +30,7 @@ body::after {
 
 section {
   min-height: 100dvh;
-  padding: 230px 22px 96px;
+  padding: 100px 22px 96px;
 }
 
 section[hidden] {
@@ -47,7 +39,7 @@ section[hidden] {
 
 h1 {
   position: fixed;
-  top: min(max(14vh, 96px), 152px);
+  top: 0;
   left: 0;
   z-index: 11;
   width: 100%;
@@ -165,7 +157,6 @@ button:active {
     border-right: 1px solid #ddd;
   }
 
-  body::before,
   body::after,
   h1 {
     left: 50%;
