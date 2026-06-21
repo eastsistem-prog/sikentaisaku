@@ -41,6 +41,7 @@
 
   <script>
     let questions = [];
+    let questionIds = [];
     let currentQuestion = null;
     let currentQuestionIndex = 0;
     let isAnswerVisible = false;
@@ -50,20 +51,22 @@
 
       const response = await fetch("photo-database.json");
       questions = await response.json();
+
+      questionIds = questions.map(question => question.id);
     }
 
-    async function showQuestionById(questionId) {
-      await loadQuestions();
+    function showQuestion(i) {
+      const questionId = questionIds[i];
+      const question = questions.find(question => question.id === questionId);
 
-      const questionIndex = questions.findIndex(item => item.id === questionId);
-      if (questionIndex === -1) return;
+      if (!question) return;
 
-      currentQuestionIndex = questionIndex;
-      currentQuestion = questions[currentQuestionIndex];
+      currentQuestion = question;
+      currentQuestionIndex = i;
       isAnswerVisible = false;
 
-      document.getElementById("questionTitle").textContent = currentQuestion.questionTitle;
-      document.getElementById("questionImage").src = currentQuestion.image;
+      document.getElementById("questionTitle").textContent = question.questionTitle;
+      document.getElementById("questionImage").src = question.image;
 
       renderAnswerItems();
     }
@@ -87,24 +90,18 @@
     }
 
     function showNextQuestion() {
-      if (questions.length === 0) return;
+      if (questionIds.length === 0) return;
 
       currentQuestionIndex = currentQuestionIndex + 1;
 
-      if (currentQuestionIndex >= questions.length) {
+      if (currentQuestionIndex >= questionIds.length) {
         currentQuestionIndex = 0;
       }
 
-      currentQuestion = questions[currentQuestionIndex];
-      isAnswerVisible = false;
-
-      document.getElementById("questionTitle").textContent = currentQuestion.questionTitle;
-      document.getElementById("questionImage").src = currentQuestion.image;
-
-      renderAnswerItems();
+      showQuestion(currentQuestionIndex);
     }
 
-    function showPage(pageId) {
+    async function showPage(pageId) {
       document.getElementById("p1").hidden = true;
       document.getElementById("p2").hidden = true;
       document.getElementById("p4").hidden = true;
@@ -112,7 +109,9 @@
       document.getElementById(pageId).hidden = false;
 
       if (pageId === "p2") {
-        showQuestionById("伊勢神宮内宮正殿");
+        await loadQuestions();
+        currentQuestionIndex = 0;
+        showQuestion(currentQuestionIndex);
       }
     }
   </script>
