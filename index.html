@@ -51,10 +51,10 @@
       questions = await response.json();
     }
 
-    async function showIseJinguQuestion() {
+    async function showQuestionById(questionId) {
       await loadQuestions();
 
-      const question = questions.find(item => item.id === "伊勢神宮内宮正殿");
+      const question = questions.find(item => item.id === questionId);
       if (!question) return;
       
       currentQuestion = question;
@@ -92,7 +92,7 @@
       document.getElementById(pageId).hidden = false;
 
       if (pageId === "p2") {
-        showIseJinguQuestion();
+        showIseJinguQuestion("伊勢神宮内宮正殿");
       }
     }
   </script>
